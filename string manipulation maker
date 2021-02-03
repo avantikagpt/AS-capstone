@@ -1,0 +1,86 @@
+import random
+
+wrongCount = 0
+points = 0
+name = ''
+given_answer = ''
+correct_answer = ''
+ques = ''
+gothighscore = False
+
+name = input("What's your name? ")
+print("Hi",name+"! Welcome to the string manipulation quizzer. Here are some rules you need to follow to make sure your answers are marked correctly:")
+print ("1- everything must be given in lowercase, unless stated otherwise")
+print ("2- do not include any print statements in your answer, only the string manipulation")
+print ("3- do not change any variable names.")
+print ("4- do not include any outer parentheses () in your answer. For example, give your answer in the form string[0:5] not (string[0:5]). ")
+print ("5- you will be asked 10 questions. if you get two questions wrong, the game will end")
+
+questions = [["string = 'abcde'. What is the output of string[0:3]?", "abc"], #using a 2d array
+             ["string = 'abcde'. What is the output of string[3::]?","de"],
+             ["string = 'abcde'. What is the output of string[0:5:2]?","ace"],
+             ["string = 'helloworld'. How do you manipulate the string to retrieve the string “hello” ?","string[0:5]"],
+             ["string = 'abcde'. What is the output of string[-1:-6:-1]?", "edcba"],
+             ["string = ‘sally went to the shop’. What is the output of string.replace('shop', ‘mall’)","sally went to the mall"],
+             ["string = 'qwerty'. What is the output of min(string)?","e"],
+             ["string = 'qwerty'. What is the output of (string*3)?","qwertyqwertyqwerty"],
+             ["What is the output of ('sally went to the shop'.title())? This question is case-sensitive.","Sally Went To The Shop"],
+             ["What is the output of ('-'.join(['a','b','c']))","a-b-c"],
+             ["animal = 'gorilla'. What is the output of (animal[0].upper() + animal[1:-1] + animal[-1].upper())?","GorillA"],
+             ["What is the output of (''.join(reversed('hello world')))","dlrow olleh"],
+             ["string = “qwerty”. How do you manipulate the string to print the reverse?","string[-1:-7:-1]"],
+             ["Use five strings (“sally”,”went”,”to”,”the”,”shop”) and the join command to output (sally-went-to-the-shop)","'-'.join(['sally','went','to','the','shop'])"],
+             ["What is the output of (‘hello world’.capitalize())? This question is case-sensitive.","Hello world"],
+             ["What is the output of (‘python is a programming language'.count('a'))?","4"],
+             ["What is the output of (len('python is a programming language'))","32"],
+             ["What is the output of ('python is a programming language'.find('is'))","7"],
+             ["What is the output of ('python is a programming language'.find('hello’'))","-1"],
+             ["What is the output of (print('thon' in 'python is a programming language')). Please enter your answer in lowercase.","true"]]
+
+def ques_ans():
+    global points
+    global wrongCount
+    global answer
+    ques = random.choice(questions)
+    questions.remove(ques)
+    print (" ")
+    print (ques[0])
+    given_answer = input("Enter your answer: ")
+    correct_answer = ques[1]
+    if given_answer == correct_answer:
+        points += 10
+        print ("Correct! You have",points,"points!")
+    else:
+        print ("Wrong. The correct answer is",correct_answer)
+        wrongCount += 1
+
+def updateScore():
+    global highscore
+    global gothighscore
+    with open("highscore.txt","r") as whole_file:
+        for line in whole_file:
+            if points > int(line):
+                with open("highscore.txt","w") as whole_file:
+                    line_to_write = str(points)
+                    whole_file.write(line_to_write)
+                gothighscore = True
+                highscore = points
+            else:
+                highscore = int(line)
+                gothighscore = False
+
+def endgame():
+    global highscore
+    global gothighscore
+    if gothighscore == True:
+        print ("That is the end of the quiz.")
+        print ("You scored a new high score with",highscore,"points!")
+        print ("You got",wrongCount,"questions wrong")
+    if gothighscore == False:
+        print ("That is the end of the quiz. Your points are",points)
+        print ("The high score is",highscore)
+
+while wrongCount < 2:
+    ques_ans()
+updateScore()
+endgame()
