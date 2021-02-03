@@ -7,6 +7,13 @@ given_answer = ''
 correct_answer = ''
 ques = ''
 gothighscore = False
+fileopened = False
+
+while fileopened == False:
+    with open("scorefile.txt","w") as new_file:
+        line_to_write = "0"
+        new_file.write(line_to_write)
+    fileopened = True
 
 name = input("What's your name? ")
 print("Hi",name+"! Welcome to the string manipulation quizzer. Here are some rules you need to follow to make sure your answers are marked correctly:")
@@ -57,10 +64,11 @@ def ques_ans():
 def updateScore():
     global highscore
     global gothighscore
-    with open("highscore.txt","r") as whole_file:
+    with open("scorefile.txt","r") as whole_file:
         for line in whole_file:
+            print (line)
             if points > int(line):
-                with open("highscore.txt","w") as whole_file:
+                with open("scorefile.txt","w") as whole_file:
                     line_to_write = str(points)
                     whole_file.write(line_to_write)
                 gothighscore = True
