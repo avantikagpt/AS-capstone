@@ -1,0 +1,5 @@
+#run this code to create the score file on your computer if it doesn't exist already
+
+with open("scorefile.txt","w") as new_file:
+    line_to_write = "20"
+    new_file.write(line_to_write)
